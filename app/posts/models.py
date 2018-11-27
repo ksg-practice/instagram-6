@@ -11,11 +11,21 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         verbose_name='작성자',
     )
-    photo = models.ImageField('사진', upload_to='post')
+    photo = models.ImageField(
+        '사진',
+        upload_to='post',
+    )
+    # auto_now_add: 객체가 처음 생성될때의 시간 저장
+    # auto_now: 객체의 save()가 호출될 떄 마다 시단 저장
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = '포스트'
         verbose_name_plural = f'{verbose_name} 목록'
+        ordering = ['-pk']
+
+
 
 class Comment(models.Model):
     post = models.ForeignKey(
